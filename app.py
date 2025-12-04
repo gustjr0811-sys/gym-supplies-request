@@ -91,6 +91,34 @@ st.markdown("""
         div[class*="StatusWidget"] {
             display: none !important;
         }
+
+        /* 우측 하단 고정 위치 요소 모두 숨김 (가장 강력한 방법) */
+        div[style*="position: fixed"][style*="bottom"],
+        div[style*="position: fixed"][style*="right"],
+        div[style*="position: fixed"][style*="bottom"][style*="right"] {
+            display: none !important;
+        }
+
+        /* z-index 높은 하단 요소들 숨김 */
+        div[style*="z-index"][style*="bottom"] {
+            display: none !important;
+        }
+
+        /* 모든 하단 우측 절대/고정 위치 요소 */
+        [style*="position: absolute; bottom"][style*="right"],
+        [style*="position: fixed; bottom"][style*="right"] {
+            display: none !important;
+        }
+
+        /* Streamlit의 동적 클래스명 모두 타겟 */
+        div[class*="viewerBadge"],
+        div[class*="ViewerBadge"],
+        div[class*="badge"],
+        div[class*="Badge"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
