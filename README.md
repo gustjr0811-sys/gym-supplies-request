@@ -40,7 +40,8 @@ Streamlit 기반 헬스장 직원용 소모품 신청 및 관리 시스템
 ├── start.command          # 로컬 실행 스크립트
 ├── stop.command           # 서버 종료 스크립트
 ├── .streamlit/
-│   └── secrets.toml       # Supabase API 키 (Git 제외)
+│   ├── secrets.toml       # Supabase API 키 (Git 제외)
+│   └── config.toml        # Streamlit UI 설정
 └── utils/
     ├── __init__.py
     ├── auth.py            # 인증 관련 (현재 미사용)
@@ -102,14 +103,43 @@ http://localhost:9001
 
 ## 🌐 배포 정보
 
-- **Streamlit Cloud**: 자동 배포 (GitHub push 시)
-- **Secrets 설정**: Streamlit Cloud Dashboard → Settings → Secrets
+### Streamlit Cloud 배포
+- **배포 완료**: https://github.com/gustjr0811-sys/gym-supplies-request
+- **자동 배포**: GitHub push 시 1-2분 내 자동 재배포
+- **배포 URL**: Streamlit Cloud에서 제공
+
+### Secrets 설정
+Streamlit Cloud Dashboard → Settings → Secrets
 
 ```toml
 [supabase]
 url = "https://ueflrkvfhlftprptsplo.supabase.co"
 key = "eyJhbG..."  # Supabase anon key
 ```
+
+### UI 설정 (config.toml)
+직원들에게는 Streamlit UI 버튼 숨김 (minimal 모드)
+
+```toml
+[client]
+toolbarMode = "minimal"
+
+[theme]
+base = "light"
+```
+
+### 슬립 모드 방지 (UptimeRobot)
+- **서비스**: UptimeRobot (무료 플랜)
+- **설정**: 5분마다 자동 핑
+- **목적**: 한 달에 한 번 접속 시에도 빠른 로딩
+- **URL**: https://uptimerobot.com
+- **설정 방법**:
+  1. 계정 생성
+  2. Add New Monitor 선택
+  3. Monitor Type: HTTP(s)
+  4. URL: Streamlit 배포 주소 입력
+  5. Interval: 5 minutes
+  6. 완료
 
 ## 🔄 개발 워크플로우
 
