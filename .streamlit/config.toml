@@ -1,0 +1,9 @@
+# Streamlit 설정 파일
+
+[client]
+# UI 모드: minimal (깔끔한 UI)
+toolbarMode = "minimal"
+
+[theme]
+# 기본 테마 사용
+base = "light"
