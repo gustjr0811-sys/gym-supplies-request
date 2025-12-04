@@ -20,6 +20,51 @@ st.set_page_config(
     layout="wide"
 )
 
+# Streamlit UI 요소 숨기기
+st.markdown("""
+    <style>
+        /* 상단 헤더 전체 숨김 */
+        header[data-testid="stHeader"] {
+            display: none !important;
+        }
+
+        /* 하단 푸터 숨김 */
+        footer {
+            display: none !important;
+        }
+
+        /* Streamlit 메뉴 버튼 숨김 */
+        #MainMenu {
+            display: none !important;
+        }
+
+        /* 하단 "Made with Streamlit" 숨김 */
+        footer:after {
+            display: none !important;
+        }
+
+        /* 상단 toolbar 전체 숨김 */
+        div[data-testid="stToolbar"] {
+            display: none !important;
+        }
+
+        /* 우측 상단 배포 버튼들 숨김 */
+        div[data-testid="stDecoration"] {
+            display: none !important;
+        }
+
+        /* Fork, GitHub 아이콘 등 숨김 */
+        .viewerBadge_container__1QSob {
+            display: none !important;
+        }
+
+        /* 우측 하단 아이콘들 숨김 */
+        .styles_viewerBadge__1yB5_ {
+            display: none !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # 세션 상태 초기화
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
