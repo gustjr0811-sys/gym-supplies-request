@@ -62,6 +62,35 @@ st.markdown("""
         .styles_viewerBadge__1yB5_ {
             display: none !important;
         }
+
+        /* 하단 우측 모든 배지 숨김 (Streamlit 아이콘, 왕관 등) */
+        div[data-testid="stStatusWidget"] {
+            display: none !important;
+        }
+
+        /* 모든 iframe 배지 숨김 */
+        iframe[title="streamlit_app"] {
+            display: none !important;
+        }
+
+        /* 우측 하단 고정 배지들 숨김 */
+        .stApp > footer,
+        .stApp > div > div > div > div > footer {
+            display: none !important;
+        }
+
+        /* Streamlit Community Cloud 배지 숨김 */
+        [data-testid="stCommunityCloudBadge"] {
+            display: none !important;
+        }
+
+        /* 추가 배지 타겟팅 */
+        button[kind="header"],
+        a[href*="streamlit.io"],
+        div[class*="viewerBadge"],
+        div[class*="StatusWidget"] {
+            display: none !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
