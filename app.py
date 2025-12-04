@@ -422,6 +422,9 @@ def show_request_tab():
                 with st.spinner("신청 처리 중..."):
                     result = submit_cart(st.session_state.username, cart_items)
                     if result['success']:
+                        # 캐시 클리어 (전체내역이 즉시 업데이트되도록)
+                        get_submission_history.clear()
+                        get_all_submission_history.clear()
                         st.success("✅ 신청이 완료되었습니다!")
                         st.rerun()
                     else:
