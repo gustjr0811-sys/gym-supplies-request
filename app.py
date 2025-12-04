@@ -120,6 +120,63 @@ st.markdown("""
             opacity: 0 !important;
         }
     </style>
+
+    <script>
+        // JavaScript로 배지 요소 직접 제거 (가장 강력한 방법)
+        function removeBadges() {
+            // 모든 가능한 배지 셀렉터
+            const selectors = [
+                '[data-testid="stStatusWidget"]',
+                '[data-testid="stCommunityCloudBadge"]',
+                'div[class*="viewerBadge"]',
+                'div[class*="ViewerBadge"]',
+                'div[class*="badge"]',
+                'div[class*="Badge"]',
+                'a[href*="streamlit.io"]',
+                'button[kind="header"]'
+            ];
+
+            // 각 셀렉터로 찾아서 제거
+            selectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(el => {
+                    if (el) {
+                        el.remove();
+                    }
+                });
+            });
+
+            // 우측 하단 고정 위치 요소들 제거
+            const allDivs = document.querySelectorAll('div');
+            allDivs.forEach(div => {
+                const style = window.getComputedStyle(div);
+                if (style.position === 'fixed' || style.position === 'absolute') {
+                    const bottom = style.bottom;
+                    const right = style.right;
+                    // 우측 하단에 위치한 요소 제거
+                    if (bottom !== 'auto' && right !== 'auto' &&
+                        parseInt(bottom) < 100 && parseInt(right) < 100) {
+                        // 단, stApp이나 중요한 컨테이너는 제외
+                        if (!div.className.includes('stApp') &&
+                            !div.className.includes('main') &&
+                            div.offsetHeight < 200 && div.offsetWidth < 200) {
+                            div.remove();
+                        }
+                    }
+                }
+            });
+        }
+
+        // 페이지 로드 시 실행
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', removeBadges);
+        } else {
+            removeBadges();
+        }
+
+        // 500ms마다 계속 체크해서 제거 (배지가 동적으로 추가될 수 있음)
+        setInterval(removeBadges, 500);
+    </script>
 """, unsafe_allow_html=True)
 
 # 세션 상태 초기화
