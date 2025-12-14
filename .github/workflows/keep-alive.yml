@@ -1,0 +1,94 @@
+name: Keep Streamlit App Awake
+
+on:
+  schedule:
+    # 10시간마다 실행 (UTC 기준: 0시, 10시, 20시)
+    - cron: '0 0,10,20 * * *'
+  workflow_dispatch:  # 수동 실행 가능
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install selenium webdriver-manager
+
+      - name: Wake up Streamlit app
+        env:
+          STREAMLIT_APP_URL: ${{ secrets.STREAMLIT_APP_URL }}
+        run: |
+          python - <<'EOF'
+          import os
+          import time
+          from selenium import webdriver
+          from selenium.webdriver.chrome.service import Service
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait
+          from selenium.webdriver.support import expected_conditions as EC
+          from webdriver_manager.chrome import ChromeDriverManager
+
+          # Streamlit 앱 URL 가져오기
+          app_url = os.environ.get('STREAMLIT_APP_URL')
+          if not app_url:
+              print("❌ Error: STREAMLIT_APP_URL not set in GitHub Secrets")
+              exit(1)
+
+          print(f"🚀 Visiting Streamlit app: {app_url}")
+
+          # Chrome 옵션 설정 (헤드리스 모드)
+          chrome_options = Options()
+          chrome_options.add_argument('--headless')
+          chrome_options.add_argument('--no-sandbox')
+          chrome_options.add_argument('--disable-dev-shm-usage')
+          chrome_options.add_argument('--disable-gpu')
+
+          # Chrome 드라이버 설정
+          service = Service(ChromeDriverManager().install())
+          driver = webdriver.Chrome(service=service, options=chrome_options)
+
+          try:
+              # Streamlit 앱 방문
+              driver.get(app_url)
+              print("✅ Successfully loaded the page")
+
+              # 페이지 로드 대기 (최대 30초)
+              time.sleep(5)
+
+              # "Yes, get this app back up!" 버튼 찾기 시도
+              try:
+                  wake_button = WebDriverWait(driver, 10).until(
+                      EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Yes, get this app back up')]"))
+                  )
+                  print("😴 App is sleeping. Clicking wake button...")
+                  wake_button.click()
+                  time.sleep(5)
+                  print("✅ Wake button clicked! App should be awake now.")
+              except:
+                  print("✅ App is already awake (no sleep button found)")
+
+              # 앱이 정상적으로 로드되었는지 확인
+              time.sleep(3)
+              print("🎉 Keep-alive task completed successfully!")
+
+          except Exception as e:
+              print(f"❌ Error: {str(e)}")
+              raise
+          finally:
+              driver.quit()
+          EOF
+
+      - name: Report status
+        if: always()
+        run: |
+          echo "Keep-alive job finished at $(date)"
