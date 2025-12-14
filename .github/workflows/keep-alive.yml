@@ -2,8 +2,8 @@ name: Keep Streamlit App Awake
 
 on:
   schedule:
-    # 10시간마다 실행 (UTC 기준: 0시, 10시, 20시)
-    - cron: '0 0,10,20 * * *'
+    # 8시간마다 실행 (UTC 기준: 0시, 8시, 16시)
+    - cron: '0 0,8,16 * * *'
   workflow_dispatch:  # 수동 실행 가능
 
 jobs:
