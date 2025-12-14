@@ -87,7 +87,7 @@ Streamlit 기반 헬스장 직원용 소모품 신청 및 관리 시스템
 - `name`: 이름
 
 **관리자 권한**:
-- `username == '관리자'`인 사용자에게 관리자 권한 부여 (app.py에 하드코딩)
+- 특정 username을 가진 사용자에게 관리자 권한 부여 (app.py에서 설정)
 
 **계정 관리**:
 - 새 사용자 추가: Supabase Dashboard → Table Editor → users 테이블에서 직접 추가
