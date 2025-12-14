@@ -79,13 +79,19 @@ Streamlit 기반 헬스장 직원용 소모품 신청 및 관리 시스템
 
 ## 👥 사용자 정보
 
-| Username | Password (숨김) | Name   | Role  |
-|----------|----------|--------|-------|
-| 사용자1    | ****     | 사용자1  | User  |
-| 사용자2    | ****     | 사용자2  | User  |
-| 관리자    | ****     | 관리자  | Admin |
+사용자 계정은 Supabase의 `users` 테이블에서 관리됩니다.
 
-**관리자 판단 로직**: `username == '관리자'` (app.py 코드에 하드코딩)
+**테이블 구조**:
+- `username` (PK): 사용자 아이디
+- `password`: 비밀번호
+- `name`: 이름
+
+**관리자 권한**:
+- `username == '관리자'`인 사용자에게 관리자 권한 부여 (app.py에 하드코딩)
+
+**계정 관리**:
+- 새 사용자 추가: Supabase Dashboard → Table Editor → users 테이블에서 직접 추가
+- 비밀번호 변경: Supabase Dashboard에서 직접 수정
 
 ## 🚀 로컬 실행
 
