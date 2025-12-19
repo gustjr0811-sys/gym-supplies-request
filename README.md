@@ -4,7 +4,6 @@ Streamlit 기반 헬스장 직원용 소모품 신청 및 관리 시스템
 
 ## 📋 프로젝트 정보
 
-- **위치**: `/Users/chahyunseok/Documents/total/gym/1.물품신청받기`
 - **GitHub**: https://github.com/gustjr0811-sys/gym-supplies-request
 - **배포**: Streamlit Cloud
 - **데이터베이스**: Supabase (PostgreSQL)
@@ -100,7 +99,6 @@ Streamlit 기반 헬스장 직원용 소모품 신청 및 관리 시스템
 ./start.command
 
 # 또는
-cd "/Users/chahyunseok/Documents/total/gym/1.물품신청받기"
 .venv/bin/streamlit run app.py --server.port 9001
 
 # 2. 브라우저 접속
@@ -119,8 +117,11 @@ Streamlit Cloud Dashboard → Settings → Secrets
 
 ```toml
 [supabase]
-url = "https://ueflrkvfhlftprptsplo.supabase.co"
-key = "eyJhbG..."  # Supabase anon key
+url = "https://your-project.supabase.co"
+key = "your-supabase-anon-key"
+
+# 관리자 계정 username
+admin_username = "your-admin-username"
 ```
 
 ### UI 설정 (config.toml)
@@ -212,11 +213,5 @@ git push
 ---
 
 ## 📝 다음 작업 시 안내
-
-**새 대화 세션에서 이 프로젝트 작업 시:**
-
-```
-/Users/chahyunseok/Documents/total/gym/1.물품신청받기 README 읽고 시작
-```
 
 **모든 수정 후 README 파일을 최신 내용으로 업데이트해줘**

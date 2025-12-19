@@ -258,8 +258,9 @@ def show_main_page():
     st.title(f"소모품 신청")
     st.caption(f"안녕하세요, {st.session_state.name}님")
 
-    # 관리자 여부 확인
-    is_admin = (st.session_state.username == '차현석')
+    # 관리자 여부 확인 (secrets.toml에서 admin_username 설정)
+    admin_username = st.secrets.get("admin_username", "admin")
+    is_admin = (st.session_state.username == admin_username)
 
     # 탭 생성 (관리자는 3개, 일반 사용자는 2개)
     if is_admin:
