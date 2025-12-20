@@ -512,7 +512,9 @@ def show_all_history_tab():
                 for idx in st.session_state.selected_submissions:
                     submission = history[idx]
                     batch_id = submission['batch_id']
-                    submit_date = submission['submitted_date'].split()[0]
+                    # 날짜 형식 변환
+                    dt = datetime.fromisoformat(submission['submitted_date'].replace('Z', '+00:00'))
+                    submit_date = dt.strftime("%Y년 %m월 %d일 %p %I시 %M분").replace('AM', '오전').replace('PM', '오후')
                     username = submission['username']
 
                     for item_idx, item in enumerate(submission['items'], 1):
@@ -553,7 +555,9 @@ def show_all_history_tab():
 
         # 각 신청 항목 표시
         for idx, submission in enumerate(history):
-            submit_date = submission['submitted_date'].split()[0]
+            # 날짜 형식 변환: 2025-12-18T11:17:16.876878 → 2025년 12월 18일 오전 11시 17분
+            dt = datetime.fromisoformat(submission['submitted_date'].replace('Z', '+00:00'))
+            submit_date = dt.strftime("%Y년 %m월 %d일 %p %I시 %M분").replace('AM', '오전').replace('PM', '오후')
             username = submission['username']
             is_expanded = (idx == st.session_state.all_expanded_idx)
 
