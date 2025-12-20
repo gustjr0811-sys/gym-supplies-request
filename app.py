@@ -258,8 +258,8 @@ def show_main_page():
     st.title(f"소모품 신청")
     st.caption(f"안녕하세요, {st.session_state.name}님")
 
-    # 관리자 여부 확인 (secrets.toml에서 admin_username 설정)
-    admin_username = st.secrets.get("admin_username", "admin")
+    # 관리자 여부 확인
+    admin_username = "차현석"
     is_admin = (st.session_state.username == admin_username)
 
     # 디버깅: 관리자 체크 정보 표시 (임시)
