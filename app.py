@@ -438,19 +438,22 @@ def show_history_tab():
 
     history = get_submission_history(st.session_state.username)
 
-    # Accordion 상태 초기화 (첫 번째 항목이 기본으로 열림)
+    # Accordion 상태 초기화 (기본: 모두 닫힘)
     if 'expanded_idx' not in st.session_state:
-        st.session_state.expanded_idx = 0
+        st.session_state.expanded_idx = None
 
     if history:
         for idx, submission in enumerate(history):
-            submit_date = submission['submitted_date'].split()[0]  # 날짜만 추출 (시간 제거)
+            # 날짜 형식 변환: 2025-12-18T11:17:16.876878 → 2025년 12월 18일 오전 11시 17분
+            dt = datetime.fromisoformat(submission['submitted_date'].replace('Z', '+00:00'))
+            submit_date = dt.strftime("%Y년 %m월 %d일 %p %I시 %M분").replace('AM', '오전').replace('PM', '오후')
 
             is_expanded = (idx == st.session_state.expanded_idx)
 
-            # 토글 버튼
+            # 토글 버튼 (클릭 시 펼침/접힘)
             if st.button(f"{'▼' if is_expanded else '▶'} {submit_date}", key=f"btn_{idx}", use_container_width=True):
-                st.session_state.expanded_idx = idx
+                # 이미 펼쳐진 항목을 다시 클릭하면 접기
+                st.session_state.expanded_idx = None if is_expanded else idx
                 st.rerun()
 
             # 선택된 항목만 내용 표시
