@@ -262,11 +262,6 @@ def show_main_page():
     admin_username = "차현석"
     is_admin = (st.session_state.username == admin_username)
 
-    # 디버깅: 관리자 체크 정보 표시 (임시)
-    st.write(f"🔍 디버그: 현재 사용자명 = '{st.session_state.username}'")
-    st.write(f"🔍 디버그: 관리자 설정 = '{admin_username}'")
-    st.write(f"🔍 디버그: 관리자 권한 = {is_admin}")
-
     # 탭 생성 (관리자는 3개, 일반 사용자는 2개)
     if is_admin:
         tab1, tab2, tab3 = st.tabs(["📝 신청", "📜 내역", "📋 전체내역"])
