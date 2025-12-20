@@ -11,8 +11,9 @@ def get_supabase_client():
     global _supabase_client
     if _supabase_client is None:
         url = st.secrets["supabase"]["url"]
-        key = st.secrets["supabase"]["key"]
-        _supabase_client = create_client(url, key)
+        # service_role_key 사용 (RLS 정책 적용)
+        service_role_key = st.secrets["supabase"]["service_role_key"]
+        _supabase_client = create_client(url, service_role_key)
     return _supabase_client
 
 # ============================================
